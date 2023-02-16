@@ -51,13 +51,9 @@ Copy the included `.env.example` and rename it to `.env`. Modify it depending on
 
 Using the default values on the `.env.example` file will get you a working CKAN instance. There is a sysadmin user created by default with the values defined in `CKAN_SYSADMIN_NAME` and `CKAN_SYSADMIN_PASSWORD`(`ckan_admin` and `test1234` by default). This should be obviously changed before running this setup as a public CKAN instance.
 
-To build the images:
+To build the images and start the containers:
 
-	docker compose build
-
-To start the containers:
-
-	docker compose up
+	docker compose up -d --build
 
 This will start up the containers in the current window. By default the containers will log direct to this window with each container
 using a different colour. You could also use the -d "detach mode" option ie: `docker compose up -d` if you wished to use the current 
@@ -67,8 +63,13 @@ At the end of the container start sequence there should be 6 containers running
 
 ![Screenshot 2022-12-12 at 10 36 21 am](https://user-images.githubusercontent.com/54408245/207012236-f9571baa-4d99-4ffe-bd93-30b11c4829e0.png)
 
-After this step, CKAN should be running at `CKAN_SITE_URL`.
+## Create sys admin account (so you can log into web interface and begin creating datasets and configuring the site)
 
+Open the terminal of the Docker CKAN container and run the following to create a system admin user named `seanh` (change this to any username you wish):
+
+`ckan -c /srv/app/ckan.ini sysadmin add seanh email=seanh@localhost name=seanh`
+
+After you have created the system admin account, visit the URL set in the `CKAN_SITE_URL` environment variable, and login using your new system admin account.
 
 ## Development mode
 
